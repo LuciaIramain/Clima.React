@@ -16,4 +16,4 @@ _Para descargar el proyecto solo clona el repositorio de GitHub._
 1. Lucía Iramain.
 ## Visualiza el proyecto terminado
 
-**Proyecto en netlify:** ()
+**Proyecto en netlify:** (`https://weather-react-web.netlify.app/`)
