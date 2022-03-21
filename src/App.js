@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import Header from "./components/Header";
 import Formulario from "./components/Formulario";
 import Clima from "./components/Clima";
+import Error from "./components/Error";
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
   // ultilizo este state para controlar la busqueda y no estar llamando a la api cada vez que presiono una tecla
   const [consultar, guardarConsultar] = useState(false);
   const [resultado, guardarResultado] = useState({});
+  const [error, guardarError] = useState(false);
   const {ciudad, pais} = busqueda;
 
   useEffect(()=>{
@@ -24,10 +26,29 @@ function App() {
         const res = await respuesta.json();
         guardarResultado(res);
         guardarConsultar(false);
+
+        // Detecta si hubo resultados correctos en la consulta
+        if(res.cod === '404') {
+          guardarError(true);
+        } else {
+          guardarError(false);
+        }
       }
     }
     consultarAPI();
+    // deshabilita las dependencias de useEffect que no usamos
+    // eslint-disable-next-line
   }, [consultar]);
+
+  // Carga condicional de componentes
+  let componente;
+  if(error) {
+    componente = <Error mensaje='No hay resultados'/>
+  } else {
+    componente = <Clima 
+                    resultado={resultado}
+                  />
+  }
 
   return (
     <div>
@@ -45,9 +66,7 @@ function App() {
               />
             </div>
             <div className="col m6 s12">
-              <Clima 
-                resultado={resultado}
-              />
+              {componente}
             </div>
           </div>
         </section>
