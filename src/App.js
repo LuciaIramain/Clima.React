@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Header from "./components/Header";
 import Formulario from "./components/Formulario";
+import Clima from "./components/Clima";
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
   });
   // ultilizo este state para controlar la busqueda y no estar llamando a la api cada vez que presiono una tecla
   const [consultar, guardarConsultar] = useState(false);
+  const [resultado, guardarResultado] = useState({});
   const {ciudad, pais} = busqueda;
 
   useEffect(()=>{
@@ -20,7 +22,8 @@ function App() {
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad},${pais}&appid=${appId}`;
         const respuesta = await fetch(url);
         const res = await respuesta.json();
-        console.log(res);
+        guardarResultado(res);
+        guardarConsultar(false);
       }
     }
     consultarAPI();
@@ -42,7 +45,9 @@ function App() {
               />
             </div>
             <div className="col m6 s12">
-              2
+              <Clima 
+                resultado={resultado}
+              />
             </div>
           </div>
         </section>
