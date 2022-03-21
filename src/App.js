@@ -36,6 +36,8 @@ function App() {
       }
     }
     consultarAPI();
+    // deshabilita las dependencias de useEffect que no usamos
+    // eslint-disable-next-line
   }, [consultar]);
 
   // Carga condicional de componentes
